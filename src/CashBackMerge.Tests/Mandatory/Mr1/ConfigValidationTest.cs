@@ -1,33 +1,82 @@
+using CashBackMerge.App.core;
 namespace CashBackMerge.Tests.Mandatory.Mr1;
 
 /// <summary>Обязательные тесты: конфиг кампании.</summary>
 public class ConfigValidationTest
 {
-    [Fact(DisplayName = "Валидный конфиг принимается",
-          Skip = "MR1: реализуй тест и удали эту строку")]
+    private static Config Load(string json)
+    {
+        var path = Path.GetTempFileName();
+        try
+        {
+            File.WriteAllText(path, json);
+            return Config.LoadConfig(path);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+    [Fact(DisplayName = "Валидный конфиг принимается")]
     public void ValidConfigIsAccepted()
     {
-        Assert.Fail("Тест не реализован");
+        var config = Load("""
+            {
+              "movesLimit": 20,
+              "spawnRules": [
+                { "cashback": "1", "probability": "0.85" },
+                { "cashback": "2", "probability": "0.15" }
+              ]
+            }
+            """);
+        Assert.Equal(20, config.MovesLimit);
+        Assert.Equal(2, config.SpawnRules.Count);
+        Assert.Equal(new SpawnRule(1, 0.85m), config.SpawnRules[0]);
+        Assert.Equal(new SpawnRule(2, 0.15m), config.SpawnRules[1]);
     }
 
-    [Fact(DisplayName = "Сумма вероятностей spawn-правил не равна 1 — конфиг отклоняется",
-          Skip = "MR1: реализуй тест и удали эту строку")]
-    public void ProbabilitiesNotSummingToOneAreRejected()
+    [Theory(DisplayName = "Сумма вероятностей spawn-правил не равна 1 — конфиг отклоняется")]
+    [InlineData("0.85", "0.1")]
+    [InlineData("0.7", "0.5")]
+    [InlineData("0.5", "0.5000001")]
+    public void ProbabilitiesNotSummingToOneAreRejected(params string[] probabilities)
     {
-        Assert.Fail("Тест не реализован");
+        var json = $$"""
+            {
+              "movesLimit": 20,
+              "spawnRules": [
+                { "cashback": "1", "probability": "{{probabilities[0]}}" },
+                { "cashback": "2", "probability": "{{probabilities[1]}}" }
+              ]
+            }
+            """;
+        Assert.Throws<InvalidOperationException>(() => Load(json));
     }
 
-    [Fact(DisplayName = "movesLimit <= 0 — конфиг отклоняется",
-          Skip = "MR1: реализуй тест и удали эту строку")]
+    [Fact(DisplayName = "movesLimit <= 0 — конфиг отклоняется")]
     public void NonPositiveMovesLimitIsRejected()
     {
-        Assert.Fail("Тест не реализован");
+        var json = ("""
+            {
+              "movesLimit": 0,
+              "spawnRules": [
+                { "cashback": "1", "probability": "0.85" },
+                { "cashback": "2", "probability": "0.15" }
+              ]
+            }
+            """);
+        Assert.Throws<InvalidOperationException>(() => Load(json));
     }
 
-    [Fact(DisplayName = "Пустой список spawn-правил — конфиг отклоняется",
-          Skip = "MR1: реализуй тест и удали эту строку")]
+    [Fact(DisplayName = "Пустой список spawn-правил — конфиг отклоняется")]
     public void EmptySpawnRulesAreRejected()
     {
-        Assert.Fail("Тест не реализован");
+        var json = ("""
+            {
+              "movesLimit": 0,
+              "spawnRules": []
+            }
+            """);
+        Assert.Throws<InvalidOperationException>(() => Load(json));
     }
 }
