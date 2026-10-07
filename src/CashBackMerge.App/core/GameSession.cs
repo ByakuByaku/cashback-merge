@@ -24,7 +24,7 @@ public class GameSession
     public void SpawnTile(Random rnd)
     {
         var emptyPositions = GameField.GetEmptyTiles();
-        var (x,y) = emptyPositions[rnd.Next(emptyPositions.Length)];
+        var (x, y) = emptyPositions[rnd.Next(emptyPositions.Length)];
         var cashback = PickCashback(rnd);
         GameField.SetTile(x, y, new Tile(cashback));
     }
@@ -37,7 +37,9 @@ public class GameSession
         {
             cumulative += rule.Probability;
             if (roll < cumulative)
+            {
                 return rule.Cashback;
+            }
         }
 
         return GameConfig.SpawnRules[^1].Cashback;

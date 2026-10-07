@@ -24,22 +24,34 @@ public record Config(IReadOnlyList<SpawnRule> SpawnRules, int MovesLimit)
     private void Validate()
     {
         if (SpawnRules.Count == 0)
+        {
             throw new InvalidOperationException("Список правил пуст");
+        }
 
         if (SpawnRules.Any(r => r.Probability is < 0 or > 1))
+        {
             throw new InvalidOperationException("Вероятность вне диапазона [0, 1]");
+        }
 
         if (Math.Abs(SpawnRules.Sum(r => r.Probability) - 1.0m) > 1e-9m)
+        {
             throw new InvalidOperationException("Сумма вероятностей должна быть равна 1");
-            
+        }
+
         if (SpawnRules.Any(r => r.Cashback < 0))
+        {
             throw new InvalidOperationException("Cashback не может быть отрицательным");
+        }
 
         if (SpawnRules.Any(r => MovesLimit <= 0))
+        {
             throw new InvalidOperationException("movesLimit не может быть отрицательным");
+        }
 
         if (SpawnRules is null)
+        {
             throw new InvalidOperationException("Нет поля spawnRules");
+        }
     }
 }
 

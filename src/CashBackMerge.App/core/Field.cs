@@ -8,14 +8,14 @@ namespace CashBackMerge.App.core;
 public class Field
 {
     private Tile[,] _tiles;
-    
+
     public Tile[,]? Tiles
     {
         get
         {
             return _tiles.Clone() as Tile[,];
         }
-        
+
     }
     public int Size { get; private set; }
 
@@ -35,7 +35,7 @@ public class Field
     {
         if (x < 0 || x >= Size || y < 0 || y >= Size)
         {
-            throw new   ("Координаты плитки за границей игрового поля");
+            throw new("Координаты плитки за границей игрового поля");
         }
         _tiles[x, y] = tile;
     }
@@ -48,7 +48,7 @@ public class Field
             {
                 if (_tiles[x, y].Cashback == 0)
                 {
-                    emptyTiles.Add((x,y));
+                    emptyTiles.Add((x, y));
                 }
             }
         }
@@ -67,7 +67,9 @@ public class Field
                     row.Add(".");
                 }
                 else
+                {
                     row.Add(_tiles[x, y].Cashback.ToString());
+                }
             }
             rows.Add(string.Join(" ", row));
         }
