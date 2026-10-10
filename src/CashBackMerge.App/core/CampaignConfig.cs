@@ -7,16 +7,21 @@ using System.Text.Json.Serialization;
 
 namespace CashBackMerge.App.core;
 
-public record Config(IReadOnlyList<SpawnRule> SpawnRules, int MovesLimit)
+public record CampaignConfig(IReadOnlyList<SpawnRule> SpawnRules, 
+    int MovesLimit, 
+    int BoardSize, 
+    IReadOnlyList<RewardTable>? RewardTable, 
+    int MaxRewardCashback, 
+    decimal MaxRewardAllowedRate)
 {
     private static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web)
     {
         NumberHandling = JsonNumberHandling.AllowReadingFromString
     };
-    public static Config LoadConfig(string filePath)
+    public static CampaignConfig LoadConfig(string filePath)
     {
         var json = File.ReadAllText(filePath);
-        var config = JsonSerializer.Deserialize<Config>(json, Options)
+        var config = JsonSerializer.Deserialize<CampaignConfig>(json, Options)
             ?? throw new InvalidOperationException("Пустой конфиг spawnRules");
         config.Validate();
         return config;
@@ -56,4 +61,4 @@ public record Config(IReadOnlyList<SpawnRule> SpawnRules, int MovesLimit)
 }
 
 public record SpawnRule(int Cashback, decimal Probability);
-
+public record RewardTable(int Cashback, int Reward);
