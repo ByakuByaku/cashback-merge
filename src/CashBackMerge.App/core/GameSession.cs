@@ -30,8 +30,8 @@ public class GameSession
             for (int i = 0; i < StartTilesCount; i++)
             {
                 SpawnTile(_random);
+            }
         }
-    }
     }
     internal void SpawnTile(Random rnd)
     {

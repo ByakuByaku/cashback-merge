@@ -7,11 +7,11 @@ using System.Text.Json.Serialization;
 
 namespace CashBackMerge.App.core;
 
-public record CampaignConfig(IReadOnlyList<SpawnRule> SpawnRules, 
-    int MovesLimit, 
-    int BoardSize, 
-    IReadOnlyList<RewardTable>? RewardTable, 
-    int MaxRewardCashback, 
+public record CampaignConfig(IReadOnlyList<SpawnRule> SpawnRules,
+    int MovesLimit,
+    int BoardSize,
+    IReadOnlyList<RewardTable>? RewardTable,
+    int MaxRewardCashback,
     decimal MaxRewardAllowedRate)
 {
     private static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web)

@@ -10,7 +10,9 @@ public static class MoveEngine
     public static MoveResult ApplyMove(GameSession state, MoveDirection direction)
     {
         if (state.Status == GameStatus.FINISHED)
+        {
             throw new InvalidOperationException("Партия завершена");
+        }
 
         var (changed, merged) = MoveTiles(state.GameField, direction);
         if (!changed)
@@ -24,7 +26,9 @@ public static class MoveEngine
     private static int CalculateScore(List<int> merged, IReadOnlyList<RewardTable>? rewardTable)
     {
         if (rewardTable is null)
+        {
             return 0;
+        }
 
         var rewards = rewardTable.ToDictionary(r => r.Cashback, r => r.Reward);
         return merged.Sum(tile => rewards.GetValueOrDefault(tile, 0));
@@ -34,7 +38,7 @@ public static class MoveEngine
         var rowLength = gameField.Tiles.GetLength(0);
         var allMerged = new List<int>();
         var changed = false;
-        for (int k = 0;k<rowLength; k++)
+        for (int k = 0; k < rowLength; k++)
         {
             List<int> row = new List<int>();
             for (int l = 0; l < rowLength; l++)
@@ -42,7 +46,7 @@ public static class MoveEngine
                 switch (direction)
                 {
                     case MoveDirection.UP:
-                        row.Add(gameField.Tiles[rowLength-l - 1, k].Cashback);
+                        row.Add(gameField.Tiles[rowLength - l - 1, k].Cashback);
                         break;
                     case MoveDirection.DOWN:
                         row.Add(gameField.Tiles[l, k].Cashback);
@@ -57,7 +61,10 @@ public static class MoveEngine
             }
             (var result, var merged) = MergeRow(row);
             if (!result.SequenceEqual(row))
+            {
                 changed = true;
+            }
+
             allMerged.AddRange(merged);
             for (int l = 0; l < rowLength; l++)
             {
@@ -103,7 +110,10 @@ public static class MoveEngine
             }
         }
         while (mergedRow.Count < row.Count)
+        {
             mergedRow.Add(0);
+        }
+
         mergedRow.Reverse();
         return (mergedRow, merged);
     }
