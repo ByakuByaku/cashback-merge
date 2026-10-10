@@ -11,6 +11,7 @@ public class SeedTest
         var path = Path.GetTempFileName();
         File.WriteAllText(path, """
             {
+              "boardSize": 4,
               "movesLimit": 20,
               "spawnRules": [
                 { "cashback": "1", "probability": "0.85" },
@@ -18,9 +19,9 @@ public class SeedTest
               ]
             }
             """);
-        var config = Config.LoadConfig(path);
-        var session1 = new GameSession(config, 4, seed: 42);
-        var session2 = new GameSession(config, 4, seed: 42);
+        var config = CampaignConfig.LoadConfig(path);
+        var session1 = new GameSession(config, seed: 42);
+        var session2 = new GameSession(config, seed: 42);
         Assert.Equal(session1.GameField.ToString(), session2.GameField.ToString());
         File.Delete(path);
     }

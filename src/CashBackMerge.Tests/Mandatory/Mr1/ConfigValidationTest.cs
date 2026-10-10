@@ -4,13 +4,13 @@ namespace CashBackMerge.Tests.Mandatory.Mr1;
 /// <summary>Обязательные тесты: конфиг кампании.</summary>
 public class ConfigValidationTest
 {
-    private static Config Load(string json)
+    private static CampaignConfig Load(string json)
     {
         var path = Path.GetTempFileName();
         try
         {
             File.WriteAllText(path, json);
-            return Config.LoadConfig(path);
+            return CampaignConfig.LoadConfig(path);
         }
         finally
         {
@@ -22,6 +22,7 @@ public class ConfigValidationTest
     {
         var config = Load("""
             {
+              "boardSize": 4,
               "movesLimit": 20,
               "spawnRules": [
                 { "cashback": "1", "probability": "0.85" },
@@ -43,6 +44,7 @@ public class ConfigValidationTest
     {
         var json = $$"""
             {
+              "boardSize": 4,
               "movesLimit": 20,
               "spawnRules": [
                 { "cashback": "1", "probability": "{{probabilities[0]}}" },
@@ -58,6 +60,7 @@ public class ConfigValidationTest
     {
         var json = ("""
             {
+              "boardSize": 4,
               "movesLimit": 0,
               "spawnRules": [
                 { "cashback": "1", "probability": "0.85" },
