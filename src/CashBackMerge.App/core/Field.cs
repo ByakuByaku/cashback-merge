@@ -23,9 +23,9 @@ public class Field
     {
         Size = size;
         _tiles = new Tile[size, size];
-        for (int x = 0; x < size; x++)
+        for (int x = 0; x < Size; x++)
         {
-            for (int y = 0; y < 4; y++)
+            for (int y = 0; y < Size; y++)
             {
                 _tiles[x, y] = new Tile();
             }
@@ -57,10 +57,10 @@ public class Field
     public override string ToString()
     {
         var rows = new List<string>();
-        for (int y = 0; y < Size; y++)
+        for (int x = 0; x < Size; x++)
         {
             var row = new List<string>();
-            for (int x = 0; x < Size; x++)
+            for (int y = 0; y < Size; y++)
             {
                 if (_tiles[x, y].Cashback == 0)
                 {
@@ -82,5 +82,31 @@ public class Field
             throw new ArgumentOutOfRangeException("Координаты плитки за границей игрового поля");
         }
         return _tiles[x, y];
+    }
+    public bool HasAvailableMoves()
+    {
+        var rows = Tiles.GetLength(0);
+        var cols = Tiles.GetLength(1);
+        for (int r = 0; r < rows; r++)
+        {
+            for (int c = 0; c < cols; c++)
+            {
+                var value = Tiles[r, c].Cashback;
+                if (value == 0)
+                {
+                    return true;
+                }
+                if (c + 1 < cols && value == Tiles[r, c + 1].Cashback)
+                {
+                    return true;
+                }
+                if (r + 1 < rows && value == Tiles[r + 1, c].Cashback)
+                {
+                    return true;
+                }
+
+            }
+        }
+        return false;
     }
 }
