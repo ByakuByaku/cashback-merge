@@ -33,9 +33,15 @@ public class GameSession
         }
     }
     }
+    internal void SpawnTile(Random rnd)
     {
         var emptyPositions = GameField.GetEmptyTiles();
         var (x, y) = emptyPositions[rnd.Next(emptyPositions.Length)];
+        if (emptyPositions.Length == 0)
+        {
+            throw new InvalidOperationException("Нет свободных клеток для новой плитки");
+        }
+
         var cashback = PickCashback(rnd);
         GameField.SetTile(x, y, new Tile(cashback));
     }
