@@ -6,11 +6,19 @@ namespace CashBackMerge.App.core;
 
 public class GameSession
 {
-    private int _startTailsCount = 2;
+    private const int StartTilesCount = 2;
+    private readonly bool _spawnTiles;
+    private readonly Random _random;
     public GameStatus Status { get; private set; }
     public Field GameField { get; private set; }
-    public Config GameConfig { get; private set; }
-    public GameSession(Config config, int size, int? seed = null)
+    public CampaignConfig GameConfig { get; private set; }
+    public int Score { get; private set; }
+    public int MovesMade { get; private set; }
+    public int MaxCashback => GameField.Tiles.Cast<Tile>().Max(t => t.Cashback);
+
+    public GameSession(CampaignConfig config, int? seed = null)
+        : this(config, true, seed) { }
+    public GameSession(CampaignConfig config, bool spawnTiles, int? seed = null)
     {
         GameConfig = config;
         Status = GameStatus.IN_PROGRESS;
