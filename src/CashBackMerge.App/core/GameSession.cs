@@ -22,14 +22,17 @@ public class GameSession
     {
         GameConfig = config;
         Status = GameStatus.IN_PROGRESS;
-        GameField = new Field(size);
-        var rnd = seed.HasValue ? new Random(seed.Value) : new Random();
-        for (int i = 0; i < _startTailsCount; i++)
+        GameField = new Field(GameConfig.BoardSize);
+        _random = seed.HasValue ? new Random(seed.Value) : new Random();
+        _spawnTiles = spawnTiles;
+        if (_spawnTiles)
         {
-            SpawnTile(rnd);
+            for (int i = 0; i < StartTilesCount; i++)
+            {
+                SpawnTile(_random);
         }
     }
-    public void SpawnTile(Random rnd)
+    }
     {
         var emptyPositions = GameField.GetEmptyTiles();
         var (x, y) = emptyPositions[rnd.Next(emptyPositions.Length)];
