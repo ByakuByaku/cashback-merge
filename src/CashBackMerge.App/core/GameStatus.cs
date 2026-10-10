@@ -9,3 +9,10 @@ public enum GameStatus
     IN_PROGRESS,
     FINISHED
 }
+public enum MoveDirection
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
