@@ -55,5 +55,17 @@ public class GameSession
 
         return GameConfig.SpawnRules[^1].Cashback;
     }
-
+    internal void RecordMove(int gainedScore)
+    {
+        Score += gainedScore;
+        MovesMade++;
+        if (_spawnTiles)
+        {
+            SpawnTile(_random);
+        }
+        if (MovesMade >= GameConfig.MovesLimit || !GameField.HasAvailableMoves())
+        {
+            Status = GameStatus.FINISHED;
+        }
+    }
 }
