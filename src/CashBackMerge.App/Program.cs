@@ -26,6 +26,15 @@ File.WriteAllText(path, json);
 var config = CampaignConfig.LoadConfig(path);
 File.Delete(path);
 
+int? seed;
+if (args.Length > 0 && int.TryParse(args[0], out int parsedSeed))
+{
+    seed = parsedSeed;
+}
+else
+{
+    seed = null;
+}
 
-var session = new GameSession(config);
+var session = new GameSession(config, seed);
 ConsoleGame.Run(session);
