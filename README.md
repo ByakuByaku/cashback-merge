@@ -8,21 +8,26 @@
 ## Запуск
 ```
 dotnet run --project src/CashBackMerge.App
+dotnet run --project src/CashBackMerge.App -- SEED
 ```
+Управление: 'W', 'A', 'S', 'D' или стрелки, 'Q' выход.
 
 ## Тесты
 ```
-dotnet run
+dotnet test
 ```
 
 ## Конфиг игры
 ```json
 {
+  "boardSize": 4,
   "movesLimit": 20,
   "spawnRules": [
     { "cashback": "1", "probability": "0.85" },
     { "cashback": "2", "probability": "0.15" }
-  ]
+  ],
+  "maxRewardCashback": "32",
+  "maxRewardAllowedRate": "0.20"
 }
 ```
 Некорректный конфиг отклоняется исключением `InvalidOperationException`
@@ -36,6 +41,8 @@ src/CashBackMerge.App/core/
   Field.cs         поле, доступ по координатам, текстовый вывод
   GameSession.cs   состояние партии, начальное состояние по seed, появление плитки
   GameStatus.cs    IN_PROGRESS, FINISHED
+  MoveEngine.cs    логика ходов, слияние плиток в линиях
+ConsoleGame.cs    консольная версия игры
 ```
 За выбор значения новой плитки отвечает `GameSession.PickCashback`,
 за выбор клетки `GameSession.SpawnTile`. Чтобы поменять правило появления,
