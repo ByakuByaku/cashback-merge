@@ -1,4 +1,5 @@
 ﻿using CashBackMerge.App.core;
+using CashBackMerge.App.core.strategies;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,7 +21,7 @@ public static class ConsoleGame
                 Console.WriteLine("Выход из игры.");
                 break;
             }
-            var direction = GetMoveDirection(key);
+            MoveDirection? direction = GetMoveDirection(key);
             if (direction is null)
             {
                 Console.WriteLine("Некорректный ввод. Используйте W/A/S/D или стрелки для хода, Q для выхода.");
