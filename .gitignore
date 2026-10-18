@@ -484,3 +484,7 @@ $RECYCLE.BIN/
 
 
 nuget.config
+
+# Generated campaign simulation reports; keep the reports directory in Git.
+src/CashBackMerge.App/reports/*.json
+!src/CashBackMerge.App/reports/.gitkeep
