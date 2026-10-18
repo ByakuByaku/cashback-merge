@@ -1,10 +1,12 @@
-﻿using CashBackMerge.App.core.strategies;
+﻿using CashBackMerge.App.core;
+using CashBackMerge.App.core.strategies;
+using CashBackMerge.App.simulation.strategies;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Channels;
 
-namespace CashBackMerge.App.core;
+namespace CashBackMerge.App.simulation;
 
 public class SimulationRunner
 {

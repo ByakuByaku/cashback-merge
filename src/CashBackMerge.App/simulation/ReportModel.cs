@@ -1,11 +1,11 @@
-﻿using CashBackMerge.App.core.strategies;
+﻿using CashBackMerge.App.core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
-namespace CashBackMerge.App.core;
+namespace CashBackMerge.App.simulation;
 
 public record ReportModel
 {

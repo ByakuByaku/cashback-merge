@@ -1,8 +1,9 @@
-﻿using System;
+﻿using CashBackMerge.App.core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CashBackMerge.App.core.strategies;
+namespace CashBackMerge.App.simulation.strategies;
 
 public class CornerStrategy : IStrategy
 {
