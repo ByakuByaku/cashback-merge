@@ -9,6 +9,7 @@ public class GameSession
     private const int StartTilesCount = 2;
     private readonly bool _spawnTiles;
     private readonly Random _random;
+    public int Seed { get; private set; }
     public GameStatus Status { get; private set; }
     public Field GameField { get; private set; }
     public CampaignConfig GameConfig { get; private set; }
@@ -25,6 +26,7 @@ public class GameSession
         GameField = new Field(GameConfig.BoardSize);
         _random = seed.HasValue ? new Random(seed.Value) : new Random();
         _spawnTiles = spawnTiles;
+        Seed = seed ?? 0;
         if (_spawnTiles)
         {
             for (int i = 0; i < StartTilesCount; i++)
