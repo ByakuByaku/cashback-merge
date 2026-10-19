@@ -1,70 +1,65 @@
-﻿using CashBackMerge.App.simulation.strategies;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace CashBackMerge.App.CLI;
 
 public static class CommandLineParser
 {
     public static CommandLineOptions Parse(string[] args)
     {
-        if (args.Length == 0 || args[0] != "simulate")
+        if (args.Length < 1 || (args[0] != "play" && args[0] != "simulate"))
         {
-            throw new ArgumentException("Укажите команду simulate.");
+            throw new ArgumentException("Укажите команду play или simulate.");
         }
 
-        string configPath = null;
-        int playersCount = 1000;
-        string strategyName = "RandomStrategy";
+        var command = args[0].ToLower();
+        string? configPath = null;
         int? seed = null;
+        var playersCount = 1000;
+        var strategyName = "RandomStrategy";
 
-        for (int i = 1; i < args.Length; i++)
+        for (var i = 1; i < args.Length; i++)
         {
-            switch (args[i].ToLower())
+            var option = args[i].ToLower();
+            if (i + 1 >= args.Length)
+            {
+                throw new ArgumentException($"После {option} нужно указать значение.");
+            }
+            var value = args[++i];
+            if (value.StartsWith("--"))
+            {
+                throw new ArgumentException($"После {option} нужно указать значение.");
+            }
+            switch (option)
             {
                 case "--config":
-                    if (i + 1 < args.Length) configPath = args[++i];
+                    configPath = value;
                     break;
-
-                case "--players":
-                    if (i + 1 < args.Length && int.TryParse(args[++i], out int p))
-                        playersCount = p;
-                    break;
-
-                case "--strategy":
-                    if (i + 1 < args.Length) strategyName = args[++i];
-                    break;
-
                 case "--seed":
-                    if (i + 1 < args.Length && int.TryParse(args[++i], out int s))
-                        seed = s;
+                    if (!int.TryParse(value, out var parsedSeed))
+                        throw new ArgumentException("--seed должен быть целым числом.");
+                    seed = parsedSeed;
+                    break;
+                case "--players" when command == "simulate":
+                    if (!int.TryParse(value, out playersCount) || playersCount <= 0)
+                        throw new ArgumentException("--players должен быть положительным целым числом.");
+                    break;
+                case "--strategy" when command == "simulate":
+                    strategyName = value;
                     break;
                 default:
-                    Console.WriteLine($"Неизвестный параметр: {args[i]}");
-                    break;
+                    throw new ArgumentException($"Неизвестный параметр для {command}: {option}");
             }
         }
-        if (string.IsNullOrEmpty(configPath))
+
+        if (string.IsNullOrWhiteSpace(configPath))
         {
-            throw new Exception("Параметр --config обязателен");
+            throw new ArgumentException($"Для команды {command} требуется параметр --config.");
         }
-        return new CommandLineOptions(
-            "simulate", configPath, playersCount, ResolveStrategies(strategyName, seed), seed);
-    }
-    private static IStrategy ResolveStrategies(string name, int seed)
-    {
-        switch (name)
+
+        return new CommandLineOptions(command)
         {
-            case "RandomStrategy":
-                return new RandomStrategy(new Random(seed));
-                break;
-            case "CornerStrategy":
-                return new CornerStrategy();
-                break;
-            default:
-                throw new ArgumentException($"Неизвестная стратегия: '{name}'. Доступные варианты: random, corner");
-                break;
-        }
+            ConfigPath = configPath,
+            Seed = seed,
+            PlayersCount = playersCount,
+            StrategyName = strategyName
+        };
     }
 }
