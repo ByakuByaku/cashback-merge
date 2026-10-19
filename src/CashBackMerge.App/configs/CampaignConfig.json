@@ -1,14 +1,14 @@
 {
   "boardSize": 4,
-  "movesLimit": 40,
+  "movesLimit": 30,
   "spawnRules": [
     {
       "cashback": "1",
-      "probability": "0.85"
+      "probability": "0.55"
     },
     {
       "cashback": "2",
-      "probability": "0.15"
+      "probability": "0.45"
     }
   ],
   "rewardTable": [
