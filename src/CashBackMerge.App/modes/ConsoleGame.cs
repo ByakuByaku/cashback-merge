@@ -1,20 +1,26 @@
 ﻿using CashBackMerge.App.core;
-using CashBackMerge.App.core.strategies;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Collections.Specialized.BitVector32;
 
-namespace CashBackMerge.App;
+namespace CashBackMerge.App.modes;
 
-public static class ConsoleGame
+public class ConsoleGame : IGameMode
 {
-    public static void Run(GameSession session)
+    private GameSession _session;
+    public ConsoleGame(GameSession session)
     {
-        while (session.Status == GameStatus.IN_PROGRESS)
+        _session = session;
+    }
+
+    public void Run()
+    {
+        while (_session.Status == GameStatus.IN_PROGRESS)
         {
             Console.WriteLine();
-            Console.WriteLine(session.GameField.ToString());
-            Console.WriteLine($"Осталось ходов: {session.GameConfig.MovesLimit - session.MovesMade}");
+            Console.WriteLine(_session.GameField.ToString());
+            Console.WriteLine($"Осталось ходов: {_session.GameConfig.MovesLimit - _session.MovesMade}");
             var key = Console.ReadKey(true).Key;
             if (key == ConsoleKey.Q)
             {
@@ -28,7 +34,7 @@ public static class ConsoleGame
                 continue;
             }
 
-            var result = MoveEngine.ApplyMove(session, direction.Value);
+            var result = MoveEngine.ApplyMove(_session, direction.Value);
             if (result.Changed)
             {
                 Console.WriteLine($"Получено: {result.ScoreGained} очков.");
@@ -40,12 +46,11 @@ public static class ConsoleGame
         }
         Console.WriteLine();
         Console.WriteLine("Финальное поле:");
-        Console.WriteLine(session.GameField.ToString());
+        Console.WriteLine(_session.GameField.ToString());
         Console.WriteLine();
-        Console.WriteLine($"Партия окончена. Финальный счет: {session.Score}. Ваш кешбек: {session.MaxCashback}%");
+        Console.WriteLine($"Партия окончена. Финальный счет: {_session.Score}. Ваш кешбек: {_session.MaxCashback}%");
     }
-
-    private static MoveDirection? GetMoveDirection(ConsoleKey key)
+    private MoveDirection? GetMoveDirection(ConsoleKey key)
     {
         return key switch
         {
