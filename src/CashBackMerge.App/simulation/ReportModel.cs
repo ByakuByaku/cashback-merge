@@ -22,7 +22,7 @@ public record ReportModel
         PlayersCount = playersCount;
         _seed = Sessions[0].Seed;
     }
-    public void GenerateReportFile()
+    public string GenerateReportFile()
     {
         if (Sessions == null || Sessions.Length == 0)
         {
@@ -96,5 +96,6 @@ public record ReportModel
         File.WriteAllText(fullPath, jsonString);
 
         Console.WriteLine($"[Отчет] Успешно сгенерирован: {Path.GetFullPath(fullPath)}");
+        return Path.GetFullPath(fullPath);
     }
 }

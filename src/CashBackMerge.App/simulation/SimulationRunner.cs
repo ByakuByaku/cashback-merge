@@ -10,10 +10,12 @@ namespace CashBackMerge.App.simulation;
 public class SimulationRunner
 {
     private readonly CampaignConfig _config;
+    private string _reportFullPath;
 
     public SimulationRunner(CampaignConfig config)
     {
         _config = config;
+        _reportFullPath = "";
     }
 
     public void RunBatchSinulation(string strategyName, int playersCount, int? initialSeed = null)
@@ -38,7 +40,7 @@ public class SimulationRunner
             sessions.Add(session);
         }
         var report = new ReportModel(_config, sessions.ToArray(), strategyName, playersCount);
-        report.GenerateReportFile();
+        _reportFullPath = report.GenerateReportFile();
         Console.WriteLine($"Симуляция Завершена\n");
     }
     public IStrategy ResolveStrategy(string strategyName, int seed)
@@ -52,5 +54,13 @@ public class SimulationRunner
             default:
                 throw new InvalidOperationException("Некорректное название стратегии");
         }
+    }
+    public string GetReportFullPath()
+    {
+        if (String.IsNullOrEmpty(_reportFullPath))
+        {
+            throw new InvalidOperationException("Симуляция еще не была проведена");
+        }
+        return _reportFullPath;
     }
 }
