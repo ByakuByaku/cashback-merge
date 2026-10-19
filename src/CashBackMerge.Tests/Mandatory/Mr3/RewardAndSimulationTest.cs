@@ -14,7 +14,7 @@ public class RewardAndSimulationTest
     "configs",
     "CampaignConfig.json")} --players 1 --strategy CornerStrategy --seed 5555")
     {
-        ConfigPath = Path.Combine(AppContext.BaseDirectory,"configs", "CampaignConfig.json")
+        ConfigPath = Path.Combine(AppContext.BaseDirectory, "configs", "CampaignConfig.json")
     };
     public string GenerateSimulation()
     {
@@ -28,14 +28,14 @@ public class RewardAndSimulationTest
     {
         var config = CampaignConfig.LoadConfig(CommandLineOptions.ConfigPath);
         var session = new GameSession(config, false, CommandLineOptions.Seed);
-        for (int i = 0; i<session.GameConfig.BoardSize; i++)
+        for (int i = 0; i < session.GameConfig.BoardSize; i++)
         {
             for (int j = 0; j < session.GameConfig.BoardSize; j++)
             {
                 session.GameField.SetTile(i, j, new Tile(0));
             }
         }
-        session.GameField.SetTile(0,0, new Tile(16));
+        session.GameField.SetTile(0, 0, new Tile(16));
         var report = new ReportModel(config, [session], CommandLineOptions.StrategyName, CommandLineOptions.PlayersCount);
         var reportPath = report.GenerateReportFile();
 
@@ -57,7 +57,7 @@ public class RewardAndSimulationTest
         for (int seed = 1; seed <= sessionCount; seed++)
         {
             var session = new GameSession(config, seed);
-            foreach(var tile in session.GameField.Tiles)
+            foreach (var tile in session.GameField.Tiles)
             {
                 if (!tile.IsEmpty)
                 {

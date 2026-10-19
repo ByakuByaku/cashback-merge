@@ -39,7 +39,7 @@ public class ConsoleGame : IGameMode
             {
                 Console.WriteLine("Ход не изменил состояние поля.");
             }
-            
+
         }
         Console.WriteLine();
         Console.WriteLine("Финальное поле:");

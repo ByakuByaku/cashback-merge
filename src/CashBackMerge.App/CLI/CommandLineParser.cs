@@ -34,12 +34,18 @@ public static class CommandLineParser
                     break;
                 case "--seed":
                     if (!int.TryParse(value, out var parsedSeed))
+                    {
                         throw new ArgumentException("--seed должен быть целым числом.");
+                    }
+
                     seed = parsedSeed;
                     break;
                 case "--players" when command == "simulate":
                     if (!int.TryParse(value, out playersCount) || playersCount <= 0)
+                    {
                         throw new ArgumentException("--players должен быть положительным целым числом.");
+                    }
+
                     break;
                 case "--strategy" when command == "simulate":
                     strategyName = value;

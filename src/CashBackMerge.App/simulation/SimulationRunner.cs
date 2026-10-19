@@ -35,7 +35,7 @@ public class SimulationRunner
             {
                 var move = strategy.GetNextMove();
                 var result = MoveEngine.ApplyMove(session, move);
-                
+
             }
             sessions.Add(session);
         }

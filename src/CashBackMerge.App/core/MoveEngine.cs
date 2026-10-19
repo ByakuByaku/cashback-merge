@@ -40,7 +40,7 @@ public static class MoveEngine
         {
             return rewards[maxCashback];
         }
-        
+
     }
     private static (bool, List<int>) MoveTiles(Field gameField, MoveDirection direction)
     {
