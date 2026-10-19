@@ -31,7 +31,16 @@ public static class MoveEngine
         }
 
         var rewards = rewardTable.ToDictionary(r => r.Cashback, r => r.Reward);
-        return merged.Sum(tile => rewards.GetValueOrDefault(tile, 0));
+        var maxCashback = merged.DefaultIfEmpty(0).Max();
+        if (maxCashback == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return rewards[maxCashback];
+        }
+        
     }
     private static (bool, List<int>) MoveTiles(Field gameField, MoveDirection direction)
     {

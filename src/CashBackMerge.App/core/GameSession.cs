@@ -65,7 +65,7 @@ public class GameSession
     }
     internal void RecordMove(int gainedScore)
     {
-        Score += gainedScore;
+        Score = int.Max(Score, gainedScore);
         MovesMade++;
         if (_spawnTiles)
         {

@@ -35,14 +35,11 @@ public class ConsoleGame : IGameMode
             }
 
             var result = MoveEngine.ApplyMove(_session, direction.Value);
-            if (result.Changed)
-            {
-                Console.WriteLine($"Получено: {result.ScoreGained} очков.");
-            }
-            else
+            if (!result.Changed)
             {
                 Console.WriteLine("Ход не изменил состояние поля.");
             }
+            
         }
         Console.WriteLine();
         Console.WriteLine("Финальное поле:");
