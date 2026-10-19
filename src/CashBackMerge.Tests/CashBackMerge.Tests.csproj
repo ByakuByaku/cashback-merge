@@ -22,5 +22,11 @@
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
+	
+	<ItemGroup>
+		<None Include="..\CashBackMerge.App\configs\CampaignConfig.json"
+			  Link="configs\CampaignConfig.json"
+			  CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 
 </Project>
