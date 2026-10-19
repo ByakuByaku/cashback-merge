@@ -56,11 +56,11 @@ public record ReportModel
             : "FAILED";
         var reportData = new
         {
-            GeneratedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss UTC"),
+            generatedAt = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss UTC"),
             simulation = new
             {
                 seed = _seed,
-                PlayersCount = PlayersCount,
+                playersCount = PlayersCount,
                 strategy = StrategyName
             },
             results = new
@@ -73,14 +73,14 @@ public record ReportModel
                 maxRewardAllowedRate = Config.MaxRewardAllowedRate,
                 status
             },
-            CampaignConfig = new
+            campaignConfig = new
             {
-                BoardSize = Config.BoardSize,
-                MaxRewardAllowedRate = Config.MaxRewardAllowedRate,
-                MaxRewardCashback = Config.MaxRewardCashback,
-                MovesLimit = Config.MovesLimit,
-                RewardTable = Config.RewardTable,
-                SpawnRules = Config.SpawnRules
+                boardSize = Config.BoardSize,
+                maxRewardAllowedRate = Config.MaxRewardAllowedRate,
+                maxRewardCashback = Config.MaxRewardCashback,
+                movesLimit = Config.MovesLimit,
+                rewardTable = Config.RewardTable,
+                spawnRules = Config.SpawnRules
             },
         };
         var options = new JsonSerializerOptions
