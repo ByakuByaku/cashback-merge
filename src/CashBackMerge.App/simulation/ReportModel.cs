@@ -92,6 +92,7 @@ public record ReportModel
         string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
         string fileName = $"report_{StrategyName}_{timestamp}.json";
         string fullPath = Path.Combine("reports", fileName);
+        Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
         File.WriteAllText(fullPath, jsonString);
 
         Console.WriteLine($"[Отчет] Успешно сгенерирован: {Path.GetFullPath(fullPath)}");
